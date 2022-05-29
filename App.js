@@ -1,9 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Navigator from './navigation/ShopNavigatot';
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import MainNavigator from './navigation/MainNavigator';
+
 export default function App() {
   return (
-      <Navigator />
+      <MainNavigator />
+
   );
 }
 

@@ -13,7 +13,7 @@ const ProductDetail = props => {
 
     useEffect(() => {
         const productId = props.route.params.productId;
-        fetch(`http://192.168.102.208:5000/products/${productId}`)
+        fetch(`http://192.168.100.46:5000/products/${productId}`)
             .then(res => {
                 if (!res.ok) {
                     return new Error(res.message)
@@ -21,7 +21,7 @@ const ProductDetail = props => {
                 return res.json()
             })
             .then(data => {
-                // console.log(data.fetchData)
+                // console.log(data.fetchData);
                 setProductState(data.fetchData)
             })
             .catch(err => {
@@ -41,7 +41,7 @@ const ProductDetail = props => {
                 </View>
                 <View style={styles.children}>
                     <Button title='to cart' />
-                    <Button title='back' />
+                    <Button title='back' onPress={props.navigation.goBack} />
                 </View>
             </View>
         </Card>

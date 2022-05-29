@@ -3,14 +3,13 @@ import {
     FlatList,
     Button,
 } from 'react-native';
-import { keyExtractor } from 'react-native/Libraries/Lists/VirtualizeUtils';
 import ProductItem from '../../components/ProductItem';
 
 const Product = props => {
     const [productsState, setProductsState] = useState([]);
 
     useEffect(() => {
-        fetch('http://192.168.102.208:5000/products')
+        fetch('http://192.168.100.46:5000/products')
             .then(res => {
                 if (!res.ok) {
                     return new Error(res.message)
@@ -26,10 +25,10 @@ const Product = props => {
             });
     }, [setProductsState]);
 
-    const selectedItem = (id)=>{
-        console.log('idd', id)
-        props.navigation.navigate('Detail' , {
-            productId:id
+    const selectedItem = (id) => {
+        // console.log('idd', id)
+        props.navigation.navigate('Detail', {
+            productId: id
         })
     }
     return (
@@ -61,5 +60,5 @@ const Product = props => {
     )
 }
 
-
+// 
 export default Product;
