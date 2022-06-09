@@ -1,10 +1,12 @@
+import React from 'react';
 import {
     View,
     Text,
     Image,
     StyleSheet,
 } from 'react-native';
-import Card from './Card'
+import Card from './Card';
+import { REACT_APP_API_ADDRESS } from '@env';
 
 const ProductItem = props => {
 
@@ -12,7 +14,7 @@ const ProductItem = props => {
         <Card style={styles.card} >
             <View style={styles.container} >
                 <View style={styles.imageContainer}>
-                    <Image style={styles.image} source={{ uri: `http://192.168.102.208:5000/${props.image}` }} />
+                    <Image style={styles.image} source={{ uri: `${REACT_APP_API_ADDRESS}/upload/${props.image}` }} />
                 </View>
                 <View style={styles.textContainer}>
                     <Text>{props.name} </Text>

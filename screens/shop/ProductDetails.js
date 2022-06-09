@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
     View,
     Text,
@@ -6,14 +7,28 @@ import {
     StyleSheet,
     Button
 } from 'react-native';
-import Card from '../../components/Card'
+import { Ionicons } from '@expo/vector-icons';
+import Card from '../../components/Card';
+import { REACT_APP_API_ADDRESS } from '@env';
+import { addToFavorites } from '../../store/actions/actions';
+import { removeFromFavorites } from '../../store/actions/actions';
 
 const ProductDetail = props => {
     const [productState, setProductState] = useState([]);
+    const [favoriteState, setFavoriteState] = useState(false);
+
+
+    const productId = props.route.params.productId;
+    const dispatch = useDispatch();
+    const favProd = useSelector(state => state.shop.favoriteProducts)
+    // console.log('favprod', favProd)
+    const FavIconFunction = favProd.filter(item => {
+        return item === productId
+    })
+    // console.log('FavIconFunction', FavIconFunction)
 
     useEffect(() => {
-        const productId = props.route.params.productId;
-        fetch(`http://192.168.100.46:5000/products/${productId}`)
+        fetch(`${REACT_APP_API_ADDRESS}/products/${productId}`)
             .then(res => {
                 if (!res.ok) {
                     return new Error(res.message)
@@ -27,12 +42,41 @@ const ProductDetail = props => {
             .catch(err => {
                 console.log(err.message)
             });
-    }, [])
+    }, []);
+
+
+    // useEffect(() => {
+    //     console.log('ffff' , favoriteState)
+    //     if (favoriteState) {
+    //         dispatch(addToFavorites(productId))
+    //     } else {
+    //         dispatch(removeFromFavorites(productId))
+    //     }
+    // }, [favoriteState ,dispatch ])
+
+    
     return (
         <Card style={styles.card} >
+            <View style={styles.icon}>
+                <Ionicons
+                    onPress={() => {
+                         setFavoriteState((prevState) => !prevState)
+                        if (favoriteState) {
+                            return dispatch(addToFavorites(productId))
+                        } else {
+                           return dispatch(removeFromFavorites(productId))
+                        }
+                    } }
+                    color={'#3355ff'}
+                    name={(FavIconFunction.toString() === productId.toString()) ? "heart" : "heart-outline"}
+                    size={24}
+                />
+            </View>
             <View style={styles.container} >
                 <View style={styles.imageContainer}>
-                    <Image style={styles.image} source={{ uri: `http://192.168.102.208:5000/${productState.image}` }} />
+                    {productState.image &&
+                        <Image style={styles.image}
+                            source={{ uri: `${REACT_APP_API_ADDRESS}/upload/${productState.image}` }} />}
                 </View>
                 <View style={styles.textContainer}>
                     <Text>{productState.name} </Text>
@@ -43,6 +87,7 @@ const ProductDetail = props => {
                     <Button title='to cart' />
                     <Button title='back' onPress={props.navigation.goBack} />
                 </View>
+
             </View>
         </Card>
 
@@ -52,7 +97,7 @@ const ProductDetail = props => {
 const styles = StyleSheet.create({
     card: {
         width: '80%',
-        height: 260,
+        height: 290,
         marginHorizontal: '10%',
         marginVertical: 12,
         alignItems: 'center',
@@ -82,5 +127,13 @@ const styles = StyleSheet.create({
         borderColor: 'red',
         width: 200,
     },
+    icon: {
+        height: 25,
+        width: 25,
+        position: 'absolute',
+        right: 9,
+        top: 6
+
+    }
 });
 export default ProductDetail;

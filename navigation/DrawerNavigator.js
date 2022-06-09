@@ -9,9 +9,9 @@ const Drawer = createDrawerNavigator();
  const DrawerNavigator = () => {
     return (
         <Drawer.Navigator>
-            <Drawer.Screen name="taab" component={BottomTabNavigator} />
-            <Drawer.Screen name="products" component={ProductStackNavigator} />
-            <Drawer.Screen name="favorite" component={FavoriteStackNavigator} />
+            {/* <Drawer.Screen name="products" component={ProductStackNavigator} /> */}
+            {/* <Drawer.Screen name="favorite" component={FavoriteStackNavigator} /> */}
+            {/* <Drawer.Screen name="BottomTabNavigator" component={BottomTabNavigator} /> */}
         </Drawer.Navigator>
     );
 }

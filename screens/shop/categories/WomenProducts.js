@@ -2,16 +2,17 @@ import React, { useEffect, useState } from 'react';
 import {
     FlatList,
     Button,
+    Text
 } from 'react-native';
-import ProductItem from '../../components/ProductItem';
+import ProductItem from '../../../components/ProductItem';
 import { REACT_APP_API_ADDRESS } from '@env';
 
 
-const Product = props => {
+const WomenProducts = props => {
     const [productsState, setProductsState] = useState([]);
 
     useEffect(() => {
-        fetch(`${REACT_APP_API_ADDRESS}/products`)
+        fetch(`${REACT_APP_API_ADDRESS}/products/women`)
             .then(res => {
                 if (!res.ok) {
                     return new Error(res.message)
@@ -63,4 +64,4 @@ const Product = props => {
 }
 
 // 
-export default Product;
+export default WomenProducts;

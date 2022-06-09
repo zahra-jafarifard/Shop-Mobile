@@ -1,8 +1,10 @@
+import React from 'react';
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { ProductStackNavigator } from "./StackNavigator";
 import { FavoriteStackNavigator } from "./StackNavigator";
-import { Ionicons } from 'react-native-vector-icons'
+import { Ionicons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,7 +22,7 @@ const BottomTabNavigator = () => {
                     headerShown: false
                 }}
             />
-            <Tab.Screen name='Favorites' component={FavoriteStackNavigator}
+            <Tab.Screen name='Favorite' component={FavoriteStackNavigator}
                 options={{
                     tabBarIcon: (tabInfo) => (<Ionicons
                         name="star"
