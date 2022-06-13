@@ -77,8 +77,8 @@ const Cart = props => {
                 />
             }
             <View style={styles.totalContainer}>
-                <TextInput style={styles.total}>Total : $ {_total.toFixed(2)}</TextInput>
-                <Button title='Continue' />
+                <TextInput style={styles.total}>Total : $ {Math.abs(_total).toFixed(2)}</TextInput>
+                <Button title='Continue' disabled={_total === 0 ? true : false} />
             </View>
         </View>
 
