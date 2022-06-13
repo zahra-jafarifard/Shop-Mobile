@@ -13,11 +13,24 @@ import ChildrenProducts from '../screens/shop/categories/ChildrenProducts';
 import WomenProducts from '../screens/shop/categories/WomenProducts';
 import MenProducts from '../screens/shop/categories/MenProducts';
 import Favorites from '../screens/shop/Favorites';
+import Cart from '../screens/shop/Cart';
 
 const Stack = createNativeStackNavigator();
 
 
-export const ProductStackNavigator = () => {
+export const ProductStackNavigator = (props) => {
+
+    const cartHeaderButton = (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+            <Item title='cart' iconName='cart'
+                onPress={() => {
+                    props.navigation.navigate('Cart')
+                }}
+            />
+        </HeaderButtons>
+    )
+
+
     return (
 
         <Stack.Navigator>
@@ -29,19 +42,28 @@ export const ProductStackNavigator = () => {
                         />
                     </HeaderButtons>
                 ),
+                headerRight: () => cartHeaderButton
+            }} />
+            <Stack.Screen name='Woman' component={WomenProducts} options={{
+                headerRight: () => cartHeaderButton
+            }} />
+            <Stack.Screen name='Man' component={MenProducts} options={{
+                headerRight: () => cartHeaderButton
+            }} />
+            <Stack.Screen name='Children' component={ChildrenProducts} options={{
+                headerRight: () => cartHeaderButton
+            }} />
 
-            }}/>
-            <Stack.Screen name='Woman' component={WomenProducts} />
-            <Stack.Screen name='Man' component={MenProducts} />
-            <Stack.Screen name='Children' component={ChildrenProducts} />
-
-            <Stack.Screen name='Detail' component={ProductDetail}  /> 
+            <Stack.Screen name='Detail' component={ProductDetail} options={{
+                headerRight: () => cartHeaderButton
+            }} />
+            <Stack.Screen name='Cart' component={Cart} />
 
         </Stack.Navigator>
     )
 }
 
-export const FavoriteStackNavigator = () => {
+export const FavoriteStackNavigator = (props) => {
     return (
         <Stack.Navigator>
             <Stack.Screen name='Favorites' component={Favorites} options={{
@@ -53,18 +75,21 @@ export const FavoriteStackNavigator = () => {
                         />
                     </HeaderButtons>
                 ),
+                headerRight: () => (
+                    <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                        <Item title='cart' iconName='cart'
+                            onPress={() => {
+                                props.navigation.navigate('Cart')
+                            }}
+                        />
+                    </HeaderButtons>
+                )
 
-                // headerRight: () => (
-                //     <HeaderButtons HeaderButtonComponent={HeaderButton}>
-                //         <Item title='menu' iconName='md-star-outline'
-                //         onPress={() => { console.log('favv') }}
-                //         />
-                //     </HeaderButtons>
-                // ),
             }} />
         </Stack.Navigator>
     )
 }
+
 
 
 

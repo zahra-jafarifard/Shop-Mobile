@@ -19,7 +19,7 @@ const Product = props => {
                 return res.json()
             })
             .then(data => {
-                // console.log(data.fetchData)
+                // .log(data.fetchData)
                 setProductsState(data.fetchData)
             })
             .catch(err => {
@@ -28,7 +28,6 @@ const Product = props => {
     }, [setProductsState]);
 
     const selectedItem = (id) => {
-        // console.log('idd', id)
         props.navigation.navigate('Detail', {
             productId: id
         })
@@ -62,5 +61,5 @@ const Product = props => {
     )
 }
 
-// 
+
 export default Product;

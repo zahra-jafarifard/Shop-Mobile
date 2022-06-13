@@ -12,6 +12,7 @@ import Card from '../../components/Card';
 import { REACT_APP_API_ADDRESS } from '@env';
 import { addToFavorites } from '../../store/actions/actions';
 import { removeFromFavorites } from '../../store/actions/actions';
+import { addToCart } from '../../store/actions/cart';
 
 const ProductDetail = props => {
     const [productState, setProductState] = useState([]);
@@ -21,11 +22,10 @@ const ProductDetail = props => {
     const productId = props.route.params.productId;
     const dispatch = useDispatch();
     const favProd = useSelector(state => state.shop.favoriteProducts)
-    // console.log('favprod', favProd)
+
     const FavIconFunction = favProd.filter(item => {
         return item === productId
     })
-    // console.log('FavIconFunction', FavIconFunction)
 
     useEffect(() => {
         fetch(`${REACT_APP_API_ADDRESS}/products/${productId}`)
@@ -45,28 +45,18 @@ const ProductDetail = props => {
     }, []);
 
 
-    // useEffect(() => {
-    //     console.log('ffff' , favoriteState)
-    //     if (favoriteState) {
-    //         dispatch(addToFavorites(productId))
-    //     } else {
-    //         dispatch(removeFromFavorites(productId))
-    //     }
-    // }, [favoriteState ,dispatch ])
-
-    
     return (
         <Card style={styles.card} >
             <View style={styles.icon}>
                 <Ionicons
                     onPress={() => {
-                         setFavoriteState((prevState) => !prevState)
+                        setFavoriteState((prevState) => !prevState)
                         if (favoriteState) {
                             return dispatch(addToFavorites(productId))
                         } else {
-                           return dispatch(removeFromFavorites(productId))
+                            return dispatch(removeFromFavorites(productId))
                         }
-                    } }
+                    }}
                     color={'#3355ff'}
                     name={(FavIconFunction.toString() === productId.toString()) ? "heart" : "heart-outline"}
                     size={24}
@@ -84,7 +74,13 @@ const ProductDetail = props => {
                     <Text> {productState.description} </Text>
                 </View>
                 <View style={styles.children}>
-                    <Button title='to cart' />
+                    <Button title='to cart' onPress={() => {
+                        dispatch(addToCart(productId, productState.price));
+
+                        props.navigation.navigate('Cart', {
+                            productId: productId
+                        })
+                    }} />
                     <Button title='back' onPress={props.navigation.goBack} />
                 </View>
 

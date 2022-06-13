@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         marginVertical: 12,
         alignItems: 'center',
         justifyContent: 'center',
-        
+
 
     },
     container: {
@@ -51,15 +51,15 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         alignItems: 'center',
-        paddingVertical:8
+        paddingVertical: 8
     },
-    
+
     children: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         height: '20%',
-        borderColor:'red',
+        borderColor: 'red',
         width: 200,
     },
 });

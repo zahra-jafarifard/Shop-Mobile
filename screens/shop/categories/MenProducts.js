@@ -4,12 +4,16 @@ import {
     Button,
     Text
 } from 'react-native';
+import { useDispatch } from 'react-redux';
+
 import ProductItem from '../../../components/ProductItem';
 import { REACT_APP_API_ADDRESS } from '@env';
+import { addToCart } from '../../../store/actions/cart';
 
 
 const MenProducts = props => {
     const [productsState, setProductsState] = useState([]);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         fetch(`${REACT_APP_API_ADDRESS}/products/men`)
@@ -29,7 +33,6 @@ const MenProducts = props => {
     }, [setProductsState]);
 
     const selectedItem = (id) => {
-        // console.log('idd', id)
         props.navigation.navigate('Detail', {
             productId: id
         })
@@ -52,9 +55,13 @@ const MenProducts = props => {
                                 selectedItem(dataItem.item._id)
                             }}
                         />
-                        <Button
-                            title="To Cart"
-                        />
+                        <Button title='to cart' onPress={() => {
+                            dispatch(addToCart(dataItem.item._id, dataItem.item.price));
+
+                            props.navigation.navigate('Cart', {
+                                productId: dataItem.item._id
+                            })
+                        }} />
                     </ProductItem>
 
                 )

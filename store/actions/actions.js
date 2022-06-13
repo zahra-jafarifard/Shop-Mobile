@@ -3,14 +3,14 @@ export const addToFavorites = (id) => {
     // console.log('actipn id' , id)
     return {
         type: 'ADD-TO-FAVORITE',
-        id : id
+        id: id
     };
 };
 export const removeFromFavorites = (id) => {
     // console.log('unfav actipn id' , id)
     return {
         type: 'REMOVE-FROM-FAVORITE',
-        id : id
+        id: id
     };
 };
 export const loginRequest = (email, token, userId, expTime) => {

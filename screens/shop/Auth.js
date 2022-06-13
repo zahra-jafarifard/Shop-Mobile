@@ -42,7 +42,7 @@ const Auth = props => {
                         keyboardType='email-address'
                         border='solid'
                     />
-                    
+
                     <Text>Password</Text>
                     <TextInput
                         style={styles.textInput}
@@ -58,9 +58,9 @@ const Auth = props => {
                     </View>
                     <View style={styles.children}>
 
-                        <Button 
-                        color={'#FFC0CB'} 
-                        title='switch to sign up' />
+                        <Button
+                            color={'#FFC0CB'}
+                            title='switch to sign up' />
                     </View>
                 </View>
 
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         marginVertical: 12,
 
-        
+
     },
     textInput: {
         borderColor: 'black',
@@ -97,8 +97,8 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         fontSize: 15,
         borderRadius: 25,
-        paddingLeft:12,
-        
+        paddingLeft: 12,
+
     },
     container: {
         marginTop: 19,
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         marginVertical: 5,
-       
+
 
     },
 

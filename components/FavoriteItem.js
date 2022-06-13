@@ -20,8 +20,8 @@ const FavoriteItem = props => {
                     color={'#3355ff'}
                     name={"close"}
                     size={20}
-                    onPress={() =>{
-                         dispatch(removeFromFavorites(props.id));
+                    onPress={() => {
+                        dispatch(removeFromFavorites(props.id));
                     }}
                 />
             </View>
@@ -68,8 +68,8 @@ const styles = StyleSheet.create({
 
     },
     icon: {
-        height: 19,
-        width: 19,
+        height: 22,
+        width: 22,
         position: 'absolute',
         right: 9,
         top: 6,
