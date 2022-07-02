@@ -8,6 +8,15 @@ import { Provider } from 'react-redux';
 
 import shopReducer from './store/reducers/reducers';
 import cartReducer from './store/reducers/cart';
+import { initial} from './dbSQLite/db';
+
+
+initial().then(() => {
+  console.log('SQLite successfully initialised ');
+}).catch((err) => {
+  console.log('eeeeeerrrrrr');
+  console.log(err);
+});
 
 const rootReducer = combineReducers({
   shop: shopReducer,

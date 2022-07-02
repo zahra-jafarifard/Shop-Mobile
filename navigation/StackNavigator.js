@@ -3,8 +3,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../components/HeaderButton';
-
+// import DrawerNavigator from './DrawerNavigator';
 // import Products from '../screens/shop/Products';
+
 // import Auth from '../screens/shop/Auth';
 
 import ProductDetail from '../screens/shop/ProductDetails'
@@ -14,7 +15,6 @@ import WomenProducts from '../screens/shop/categories/WomenProducts';
 import MenProducts from '../screens/shop/categories/MenProducts';
 import Favorites from '../screens/shop/Favorites';
 import Cart from '../screens/shop/Cart';
-
 const Stack = createNativeStackNavigator();
 
 
@@ -33,7 +33,7 @@ export const ProductStackNavigator = (props) => {
 
     return (
 
-        <Stack.Navigator>
+        <Stack.Navigator >
             <Stack.Screen name='Main' component={Main} options={{
                 headerLeft: () => (
                     <HeaderButtons HeaderButtonComponent={HeaderButton}>
@@ -58,6 +58,8 @@ export const ProductStackNavigator = (props) => {
                 headerRight: () => cartHeaderButton
             }} />
             <Stack.Screen name='Cart' component={Cart} />
+
+
 
         </Stack.Navigator>
     )
@@ -86,9 +88,41 @@ export const FavoriteStackNavigator = (props) => {
                 )
 
             }} />
+
         </Stack.Navigator>
     )
 }
+
+
+// export const DrawerNavigatoraa = (props) => {
+//     return (
+//         <Stack.Navigator>
+//             <Stack.Screen name='drawer' component={DrawerNavigator} options={{ headerShown: false }} />
+
+//             {/* options={{
+
+//                 headerLeft: () => (
+//                     <HeaderButtons HeaderButtonComponent={HeaderButton}>
+//                         <Item title='menu' iconName='md-menu'
+//                             onPress={() => { console.log('drwer fav') }}
+//                         />
+//                     </HeaderButtons>
+//                 ),
+//                 headerRight: () => (
+//                     <HeaderButtons HeaderButtonComponent={HeaderButton}>
+//                         <Item title='cart' iconName='cart'
+//                             onPress={() => {
+//                                 props.navigation.navigate('Cart')
+//                             }}
+//                         />
+//                     </HeaderButtons>
+//                 )
+
+//             }} 
+//             /> */}
+//         </Stack.Navigator>
+//     )
+// }
 
 
 
