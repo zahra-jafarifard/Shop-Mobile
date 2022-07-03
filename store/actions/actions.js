@@ -1,27 +1,28 @@
+import { REACT_APP_API_ADDRESS } from '@env';
 
 export const addToFavorites = (id) => {
-    // console.log('actipn id' , id)
     return {
         type: 'ADD-TO-FAVORITE',
         id: id
     };
 };
 export const removeFromFavorites = (id) => {
-    // console.log('unfav actipn id' , id)
     return {
         type: 'REMOVE-FROM-FAVORITE',
         id: id
     };
 };
-export const loginRequest = (email, token, userId, expTime) => {
+export const loginRequest = (mobile, token, clientId ) => {
     return {
         type: 'LOGIN',
-        email: email,
+        mobile: mobile,
         token: token,
-        userId: userId,
-        expirationTime: expTime,
+        clientId: clientId,
+        // expirationTime: expTime,
     };
 };
+
+
 
 export const loginFailed = (err) => {
     return {
@@ -32,22 +33,22 @@ export const loginFailed = (err) => {
 
 
 
-export const login = (email, password) => {
-    // console.log(email, password)
+export const login = (mobile, password) => {
     return (dispatch) => {
-        return fetch('http://localhost:5000/users/signIn', {
+        return fetch(`${REACT_APP_API_ADDRESS}/clients/signIn`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                email: email,
+                mobile: mobile,
                 password: password,
             }),
         })
             .then((response) => {
                 if (response.status === 422 || response.status === 403 || (!response.ok)) {
                     return response.json().then((res) => {
+                        console.log('err ' , res.message)
                         return dispatch(loginFailed(res.message));
                     });
                 }
@@ -57,25 +58,25 @@ export const login = (email, password) => {
             })
             .then((res) => {
 
-
-                const expirationTime = new Date(new Date().getTime() + 3600000);
+                // const expirationTime = new Date(new Date().getTime() + 3600000);
                 // console.log(res)
-                localStorage.setItem(
-                    'userData',
-                    JSON.stringify({
-                        userId: res.userId,
-                        token: res.token,
-                    })
-                );
-                localStorage.setItem(
-                    'expiresIn',
-                    JSON.stringify({
-                        expiresIn: expirationTime,
-                    })
-                );
+                // localStorage.setItem(
+                //     'userData',
+                //     JSON.stringify({
+                //         userId: res.userId,
+                //         token: res.token,
+                //     })
+                // );
+                // localStorage.setItem(
+                //     'expiresIn',
+                //     JSON.stringify({
+                //         expiresIn: expirationTime,
+                //     })
+                // );
 
-                dispatch(loginRequest(res.email, res.token, res.userId, expirationTime));
-                dispatch(checkAuthTimeout(expirationTime));
+                dispatch(loginRequest(res.mobile, res.token, res.clientId));
+                // dispatch(loginRequest(res.mobile, res.token, res.ClientId, expirationTime));
+                // dispatch(checkAuthTimeout(expirationTime));
             })
             .catch((e) => {
                 console.log(e);
@@ -84,8 +85,8 @@ export const login = (email, password) => {
 };
 
 export const Logout = () => {
-    localStorage.removeItem("userData");
-    localStorage.removeItem("expiresIn");
+    // localStorage.removeItem("userData");
+    // localStorage.removeItem("expiresIn");
     return {
         type: 'LOGOUT',
     };
@@ -94,32 +95,32 @@ export const Logout = () => {
 
 
 
-export const authCheckState = () => {
-    return (dispatch) => {
-        const userData = JSON.parse(localStorage.getItem("userData"));
-        if (userData) {
-            const token = userData.token;
-            if (!token) {
-                console.log("userDataLOcal toooooken redux", token);
-                dispatch(Logout());
-            } else {
-                const expirationTime = JSON.parse(localStorage.getItem("expiresIn"));
-                if (new Date(expirationTime.expiresIn) <= new Date()) {
-                    dispatch(Logout());
-                } else {
-                    const remainingTime = parseInt(
-                        (new Date(expirationTime.expiresIn).getTime() -
-                            new Date().getTime()) /
-                        1000
-                    );
-                    // console.log("remainingTime", remainingTime);
-                    dispatch(loginRequest(userData.email, userData.token, userData.userId, remainingTime));
-                    dispatch(checkAuthTimeout(remainingTime));
-                }
-            }
-        }
-    };
-};
+// export const authCheckState = () => {
+//     return (dispatch) => {
+//         const userData = JSON.parse(localStorage.getItem("userData"));
+//         if (userData) {
+//             const token = userData.token;
+//             if (!token) {
+//                 console.log("userDataLOcal toooooken redux", token);
+//                 dispatch(Logout());
+//             } else {
+//                 const expirationTime = JSON.parse(localStorage.getItem("expiresIn"));
+//                 if (new Date(expirationTime.expiresIn) <= new Date()) {
+//                     dispatch(Logout());
+//                 } else {
+//                     const remainingTime = parseInt(
+//                         (new Date(expirationTime.expiresIn).getTime() -
+//                             new Date().getTime()) /
+//                         1000
+//                     );
+//                     // console.log("remainingTime", remainingTime);
+//                     dispatch(loginRequest(userData.email, userData.token, userData.userId, remainingTime));
+//                     dispatch(checkAuthTimeout(remainingTime));
+//                 }
+//             }
+//         }
+//     };
+// };
 
 export const checkAuthTimeout = (expTime) => {
     return (dispatch) => {

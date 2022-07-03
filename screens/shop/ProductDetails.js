@@ -13,6 +13,7 @@ import { REACT_APP_API_ADDRESS } from '@env';
 import { addToFavorites } from '../../store/actions/actions';
 import { removeFromFavorites } from '../../store/actions/actions';
 import { addToCart } from '../../store/actions/cart';
+import { addToSQLite } from '../../dbSQLite/db';
 
 const ProductDetail = props => {
     const [productState, setProductState] = useState([]);
@@ -36,7 +37,6 @@ const ProductDetail = props => {
                 return res.json()
             })
             .then(data => {
-                // console.log(data.fetchData);
                 setProductState(data.fetchData)
             })
             .catch(err => {
@@ -75,6 +75,7 @@ const ProductDetail = props => {
                 </View>
                 <View style={styles.children}>
                     <Button title='to cart' onPress={() => {
+                        addToSQLite(productId, productState.name, productState.image, productState.price)
                         dispatch(addToCart(productId, productState.price));
 
                         props.navigation.navigate('Cart', {

@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import ProductItem from '../../../components/ProductItem';
 import { REACT_APP_API_ADDRESS } from '@env';
 import { addToCart } from '../../../store/actions/cart';
+import { addToSQLite } from '../../../dbSQLite/db';
 
 
 const MenProducts = props => {
@@ -24,7 +25,6 @@ const MenProducts = props => {
                 return res.json()
             })
             .then(data => {
-                // console.log(data.fetchData)
                 setProductsState(data.fetchData)
             })
             .catch(err => {
@@ -56,6 +56,7 @@ const MenProducts = props => {
                             }}
                         />
                         <Button title='to cart' onPress={() => {
+                            addToSQLite(dataItem.item._id, dataItem.item.name, dataItem.item.image, dataItem.item.price)
                             dispatch(addToCart(dataItem.item._id, dataItem.item.price));
 
                             props.navigation.navigate('Cart', {

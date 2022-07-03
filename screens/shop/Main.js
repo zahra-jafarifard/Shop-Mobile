@@ -21,7 +21,6 @@ const Main = props => {
                 return res.json()
             })
             .then(data => {
-                // console.log('caaat', data.fetchData)
                 setCategoryState(data.fetchData)
             })
             .catch(err => {
@@ -30,7 +29,6 @@ const Main = props => {
     }, [setCategoryState]);
 
     const selectedItem = (id, category) => {
-        // console.log('idd', id , category)
         props.navigation.navigate(category, {
             productId: id
         })

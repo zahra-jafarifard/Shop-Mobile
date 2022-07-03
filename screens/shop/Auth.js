@@ -1,67 +1,103 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
     View,
     TextInput,
     Text,
     StyleSheet,
-    Button
+    Button,
+    Alert
 } from 'react-native';
-import Card from '../../components/Card'
+import Card from '../../components/Card';
+import { login } from '../../store/actions/actions';
+import { REACT_APP_API_ADDRESS } from '@env';
+import { loginRequest } from '../../store/actions/actions';
 
 const Auth = props => {
 
+    const [mobile, setMobile] = useState('');
+    const [password, setPassword] = useState('');
+    const [signIn, setSignIn] = useState(true);
+    // const [err, setErr] = useState(useSelector(state => state.shop.error));
 
-    // useEffect(() => {
-    //     const productId = props.route.params.productId;
-    //     fetch(`http://192.168.215.206:5000/products/${productId}`)
-    //         .then(res => {
-    //             if (!res.ok) {
-    //                 return new Error(res.message)
-    //             }
-    //             return res.json()
-    //         })
-    //         .then(data => {
-    //             // console.log(data.fetchData);
-    //             setProductState(data.fetchData)
-    //         })
-    //         .catch(err => {
-    //             console.log(err.message)
-    //         });
-    // }, []);
+    const dispatch = useDispatch();
+    const _erorr = useSelector(state => state.shop.error)
 
+    const switchHandler = () => {
+        setSignIn(prevState => !prevState)
+    };
+
+    const authHandler = async () => {
+        if (signIn) {
+            dispatch(login(mobile, password));
+
+        }
+        else {
+            return fetch(`${REACT_APP_API_ADDRESS}/clients/signUp`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    mobile: mobile,
+                    password: password,
+                }),
+            })
+                .then((response) => {
+                    if (response.status === 422 || response.status === 403 || (!response.ok)) {
+                        return response.json().then((res) => {
+                        });
+                    }
+                    else {
+                        return response.json();
+                    }
+                })
+                .then(res => {
+                    dispatch(loginRequest(res.mobile, res.token, res.clientId))
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        }
+    }
 
     return (
         <Card style={styles.card} >
             <View style={styles.container} >
 
                 <View style={styles.textContainer}>
-                    <Text>E-mail</Text>
+                    {_erorr ? <Text style={styles.error}>  Error : {_erorr}</Text> : null}
                     <TextInput
                         style={styles.textInput}
-                        placeholder='E-mail'
-                        keyboardType='email-address'
+                        placeholder='Mobile'
+                        keyboardType='phone-pad'
                         border='solid'
+                        onChangeText={value => setMobile(value)}
+                        defaultValue={mobile}
                     />
 
-                    <Text>Password</Text>
                     <TextInput
                         style={styles.textInput}
-
                         placeholder='Password'
-                        textContentType='password' />
+                        textContentType='password'
+                        onChangeText={value => setPassword(value)}
+                        defaultValue={password}
+                    />
                 </View>
 
                 <View>
-                    <View style={styles.children}>
 
-                        <Button title='log in' color={'#FFC0CB'} />
-                    </View>
                     <View style={styles.children}>
-
-                        <Button
+                        <Button title={signIn ? 'Sign In' : 'Sign Up'}
                             color={'#FFC0CB'}
-                            title='switch to sign up' />
+                            onPress={authHandler} />
                     </View>
+                    <View style={styles.children}>
+                        <Button title={signIn ? 'Switch To Sign up' : 'Switch To Sign In'}
+                            color={'#FFC0CB'}
+                            onPress={switchHandler} />
+                    </View>
+
                 </View>
 
             </View>
@@ -73,61 +109,48 @@ const Auth = props => {
 const styles = StyleSheet.create({
     card: {
         width: '80%',
-        height: 270,
-        marginHorizontal: '10%',
-        marginVertical: 12,
-        flexDirection: 'column',
+        height: 300,
+        marginHorizontal: '11%',
+        marginVertical: 42,
         alignItems: 'center',
-        justifyContent: 'flex-start',
 
     },
 
     textContainer: {
         alignItems: 'center',
         paddingVertical: 8,
-        marginVertical: 12,
+        marginVertical: 22,
 
 
     },
     textInput: {
-        borderColor: 'black',
-        backgroundColor: '#FFC0CB',
+        borderColor: '#FFC0CB',
         width: 200,
-        // borderWidth: 1,
-        borderStyle: 'solid',
-        fontSize: 15,
-        borderRadius: 25,
+        borderWidth: 1,
+        fontSize: 11,
+        borderRadius: 9,
         paddingLeft: 12,
+        margin: 7,
+
 
     },
-    container: {
-        marginTop: 19,
-    },
+
 
     children: {
-        justifyContent: 'flex-start',
         alignItems: 'center',
-        marginVertical: 5,
+        marginVertical: 7,
+
+    },
+
+    error: {
+        fontSize: 11,
+        margin: 4,
+        color: '#ff0000',
+        textAlign: "center"
 
 
     },
 
-
-    inputView: {
-        backgroundColor: "#FFC0CB",
-        borderRadius: 30,
-        width: "70%",
-        height: 45,
-        marginBottom: 20,
-        alignItems: "center",
-    },
-
-    tddextInput: {
-        height: 50,
-        flex: 1,
-        padding: 10,
-        marginLeft: 20,
-    }
 
 });
 export default Auth;

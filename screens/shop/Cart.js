@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { REACT_APP_API_ADDRESS } from '@env';
 import CartItem from '../../components/CartItem';
+import { selectALLSQLite } from '../../dbSQLite/db';
 
 const Cart = props => {
 
@@ -19,6 +20,8 @@ const Cart = props => {
     const _Items = _cartItems.map(item => item.id)
 
     const _total = useSelector(state => state.cart.totalAmount);
+
+    
 
 
     useEffect(() => {
@@ -38,7 +41,6 @@ const Cart = props => {
                 return res.json()
             })
             .then(data => {
-                // console.log('fetch data', data.fetchData);
                 setProductState(data.fetchData)
             })
             .catch(err => {
@@ -62,14 +64,14 @@ const Cart = props => {
                                 image={dataItem.item.image}
                             >
 
-                                <Button
+                                {/* <Button
                                     title="Detail"
                                     onPress={() => {
                                         props.navigation.navigate('Detail', {
                                             productId: productState.item._id
                                         })
                                     }}
-                                />
+                                /> */}
                             </CartItem>
 
                         )
@@ -78,7 +80,13 @@ const Cart = props => {
             }
             <View style={styles.totalContainer}>
                 <TextInput style={styles.total}>Total : $ {Math.abs(_total).toFixed(2)}</TextInput>
-                <Button title='Continue' disabled={_total === 0 ? true : false} />
+                <Button title='Continue' disabled={_total === 0 ? true : false}
+                    onPress={() => {
+                        props.navigation.navigate('Order', {
+                            productId: productState[0]._id
+                        })
+                    }}
+                />
             </View>
         </View>
 

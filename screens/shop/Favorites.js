@@ -11,6 +11,7 @@ import {
 import { REACT_APP_API_ADDRESS } from '@env';
 import FavoriteItem from '../../components/FavoriteItem';
 import { addToCart } from '../../store/actions/cart';
+import { addToSQLite } from '../../dbSQLite/db';
 
 
 const Favorites = props => {
@@ -38,7 +39,6 @@ const Favorites = props => {
                 return res.json()
             })
             .then(data => {
-                // console.log(data.fetchData);
                 setFavProducts(data.fetchData)
             })
             .catch(err => {
@@ -63,7 +63,8 @@ const Favorites = props => {
 
                                 <Button
                                     title="To Cart" onPress={() => {
-                                        dispatch(addToCart(dataItem.item._id, dataItem.item.price));
+                                         addToSQLite(dataItem.item._id, dataItem.item.name, dataItem.item.image, dataItem.item.price)
+                                         dispatch(addToCart(dataItem.item._id, dataItem.item.price));
 
                                         props.navigation.navigate('Cart', {
                                             productId: dataItem.item._id

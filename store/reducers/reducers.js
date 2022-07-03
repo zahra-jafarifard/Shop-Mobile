@@ -1,14 +1,13 @@
 const initialState = {
     token: '',
-    userId: '',
-    email: '',
-    error: '',
-    expireTime: '',
+    clientId: '',
+    mobile: '',
+    error: false,
+    // expireTime: '',
     favoriteProducts: [],
 };
 
 const shopReducer = (state = initialState, action) => {
-    // console.log(state)
     switch (action.type) {
         case 'ADD-TO-FAVORITE':
             const favArray = [...state.favoriteProducts];
@@ -16,7 +15,6 @@ const shopReducer = (state = initialState, action) => {
             if (findFav === undefined) {
                 favArray.push(action.id)
             }
-            // console.log('favarry reducer', favArray)
             return {
                 ...state,
                 favoriteProducts: favArray
@@ -33,8 +31,8 @@ const shopReducer = (state = initialState, action) => {
             return {
                 ...state,
                 token: action.token,
-                email: action.email,
-                userId: action.userId
+                mobile: action.mobile,
+                clientId: action.clientId
 
             };
         case 'LOGIN_FAILED':
@@ -44,10 +42,10 @@ const shopReducer = (state = initialState, action) => {
             };
         case 'LOGOUT':
             return {
-                userId: '',
-                email: '',
+                clientId: '',
+                mobile: '',
                 token: '',
-                expireTime: '',
+                // expireTime: '',
                 error: '',
             };
 

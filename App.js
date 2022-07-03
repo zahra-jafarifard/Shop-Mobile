@@ -8,13 +8,12 @@ import { Provider } from 'react-redux';
 
 import shopReducer from './store/reducers/reducers';
 import cartReducer from './store/reducers/cart';
-import { initial} from './dbSQLite/db';
+import { init} from './dbSQLite/db';
 
 
-initial().then(() => {
+init().then(() => {
   console.log('SQLite successfully initialised ');
 }).catch((err) => {
-  console.log('eeeeeerrrrrr');
   console.log(err);
 });
 

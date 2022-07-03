@@ -12,10 +12,8 @@ import { Ionicons } from '@expo/vector-icons';
 import Card from './Card';
 import { REACT_APP_API_ADDRESS } from '@env';
 import { removeFromCart } from '../store/actions/cart';
-import { addToCart } from '../store/actions/cart';
-import { addToSQLite } from '../dbSQLite/db';
 
-const CartItem = props => {
+const OrderDetails = props => {
 
     const dispatch = useDispatch();
     const _cartItems = useSelector(state => state.cart.cartItems);
@@ -45,8 +43,7 @@ const CartItem = props => {
                         name={"add"}
                         size={23}
                         onPress={() => {
-                            addToSQLite(props.id, props.name, props.image, props.price)
-                            dispatch(addToCart(props.id, props.price));
+                            addToSQLite(props.id, props.name, props.image, props.price);
                         }}
                     />
                     <TextInput editable={false} style={styles.count}>{countHandler}</TextInput>
@@ -107,4 +104,4 @@ const styles = StyleSheet.create({
         fontWeight: '700'
     }
 });
-export default CartItem;
+export default OrderDetails;
