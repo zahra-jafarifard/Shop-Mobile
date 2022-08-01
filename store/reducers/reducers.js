@@ -45,7 +45,6 @@ const shopReducer = (state = initialState, action) => {
                 clientId: '',
                 mobile: '',
                 token: '',
-                // expireTime: '',
                 error: '',
             };
 

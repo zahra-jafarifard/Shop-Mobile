@@ -11,7 +11,7 @@ import {
 import { REACT_APP_API_ADDRESS } from '@env';
 import FavoriteItem from '../../components/FavoriteItem';
 import { addToCart } from '../../store/actions/cart';
-import { addToSQLite } from '../../dbSQLite/db';
+import { addToCartSQLite } from '../../dbSQLite/db';
 
 
 const Favorites = props => {
@@ -63,7 +63,7 @@ const Favorites = props => {
 
                                 <Button
                                     title="To Cart" onPress={() => {
-                                         addToSQLite(dataItem.item._id, dataItem.item.name, dataItem.item.image, dataItem.item.price)
+                                        addToCartSQLite(dataItem.item._id, dataItem.item.name, dataItem.item.image, dataItem.item.price)
                                          dispatch(addToCart(dataItem.item._id, dataItem.item.price));
 
                                         props.navigation.navigate('Cart', {

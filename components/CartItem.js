@@ -13,7 +13,7 @@ import Card from './Card';
 import { REACT_APP_API_ADDRESS } from '@env';
 import { removeFromCart } from '../store/actions/cart';
 import { addToCart } from '../store/actions/cart';
-import { addToSQLite } from '../dbSQLite/db';
+import { addToCartSQLite } from '../dbSQLite/db';
 
 const CartItem = props => {
 
@@ -45,7 +45,7 @@ const CartItem = props => {
                         name={"add"}
                         size={23}
                         onPress={() => {
-                            addToSQLite(props.id, props.name, props.image, props.price)
+                            addToCartSQLite(props.id, props.name, props.image, props.price)
                             dispatch(addToCart(props.id, props.price));
                         }}
                     />

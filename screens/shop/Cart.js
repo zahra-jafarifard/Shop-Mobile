@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import { REACT_APP_API_ADDRESS } from '@env';
 import CartItem from '../../components/CartItem';
-import { selectALLSQLite } from '../../dbSQLite/db';
 
 const Cart = props => {
 

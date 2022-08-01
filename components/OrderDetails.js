@@ -43,7 +43,7 @@ const OrderDetails = props => {
                         name={"add"}
                         size={23}
                         onPress={() => {
-                            addToSQLite(props.id, props.name, props.image, props.price);
+                            addToCartSQLite(props.id, props.name, props.image, props.price);
                         }}
                     />
                     <TextInput editable={false} style={styles.count}>{countHandler}</TextInput>

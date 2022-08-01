@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     View,
@@ -6,23 +6,23 @@ import {
     Text,
     StyleSheet,
     Button,
-    Alert
 } from 'react-native';
 import Card from '../../components/Card';
 import { login } from '../../store/actions/actions';
 import { REACT_APP_API_ADDRESS } from '@env';
 import { loginRequest } from '../../store/actions/actions';
+import { addToClientSQLite } from '../../dbSQLite/db';
 
-const Auth = props => {
+const Auth = (props) => {
 
     const [mobile, setMobile] = useState('');
     const [password, setPassword] = useState('');
     const [signIn, setSignIn] = useState(true);
-    // const [err, setErr] = useState(useSelector(state => state.shop.error));
 
     const dispatch = useDispatch();
-    const _erorr = useSelector(state => state.shop.error)
+    const _erorr = useSelector(state => state.shop.error);
 
+   
     const switchHandler = () => {
         setSignIn(prevState => !prevState)
     };
@@ -30,6 +30,8 @@ const Auth = props => {
     const authHandler = async () => {
         if (signIn) {
             dispatch(login(mobile, password));
+
+            //   props.navigation.navigate('Main');
 
         }
         else {
@@ -53,7 +55,8 @@ const Auth = props => {
                     }
                 })
                 .then(res => {
-                    dispatch(loginRequest(res.mobile, res.token, res.clientId))
+                    dispatch(loginRequest(res.mobile, res.token, res.clientId));
+                    addToClientSQLite(res.clientId, res.mobile, res.token);
                 })
                 .catch(err => {
                     console.log(err)
@@ -64,7 +67,6 @@ const Auth = props => {
     return (
         <Card style={styles.card} >
             <View style={styles.container} >
-
                 <View style={styles.textContainer}>
                     {_erorr ? <Text style={styles.error}>  Error : {_erorr}</Text> : null}
                     <TextInput
